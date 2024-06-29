@@ -40,7 +40,7 @@ type Ejercicio = Perrito -> Perrito
 
 {-jugar: disminuye en 10 unidades la energía del perrito 🪫. ¡No puede quedar un valor negativo!-}
 jugar :: Ejercicio
-jugar perrito = mapEnergia (subtract 10) perrito
+jugar perrito = mapEnergia (max 0.subtract 10) perrito
 
 {-ladrar: aumenta la energía la mitad de los ladridos que se establezcan. 🗣️-}
 ladrar :: Int -> Ejercicio
@@ -63,9 +63,12 @@ esDeRazaExtravagante perrito = raza perrito == "dalmata" || raza perrito == "pom
 permaneceMinCincuentaMinutos :: Perrito -> Bool
 permaneceMinCincuentaMinutos perrito = tiempoEnGuarderia perrito >= 50
 
+energiaEnCien :: Int -> Int
+energiaEnCien energia = 100
+
 diaDeSpa :: Ejercicio
 diaDeSpa perrito 
-    | esDeRazaExtravagante perrito || permaneceMinCincuentaMinutos perrito = regalar "peine de goma" perrito
+    | esDeRazaExtravagante perrito || permaneceMinCincuentaMinutos perrito = (regalar "peine de goma").(mapEnergia energiaEnCien) $ perrito
     | otherwise                                                            = perrito
 
 {-diaDeCampo: ¡nada más lindo que ver perritos jugar! Lástima que así siempre pierden el primer juguete.😅-}
